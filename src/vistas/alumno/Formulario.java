@@ -128,7 +128,7 @@ public class Formulario extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void lblIDMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblIDMouseClicked
-        
+         
         if(!agregar){
             Buscar buscar = new Buscar(null, true);
             buscar.setVisible(true);
