@@ -67,6 +67,11 @@ public class Principal extends javax.swing.JFrame {
         menuAlumno.add(menuAlumnoAdd);
 
         menuAlumnoEdit.setText("Editar");
+        menuAlumnoEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuAlumnoEditActionPerformed(evt);
+            }
+        });
         menuAlumno.add(menuAlumnoEdit);
 
         menuAlumnoDelete.setText("Eliminar");
@@ -104,6 +109,12 @@ public class Principal extends javax.swing.JFrame {
         falumno.setVisible(true);
         desktop.add(falumno);
     }//GEN-LAST:event_menuAlumnoAddActionPerformed
+
+    private void menuAlumnoEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuAlumnoEditActionPerformed
+        Formulario falumno = new Formulario(false);
+        falumno.setVisible(true);
+        desktop.add(falumno);
+    }//GEN-LAST:event_menuAlumnoEditActionPerformed
 
     /**
      * @param args the command line arguments

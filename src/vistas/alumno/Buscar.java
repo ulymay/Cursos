@@ -5,18 +5,54 @@
  */
 package vistas.alumno;
 
+import datos.DAO;
+import datos.mysql.DAOAlumno;
+import entidades.Alumno;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Ulymay
  */
 public class Buscar extends javax.swing.JDialog {
-
+    private int ID = -1;
     /**
      * Creates new form Buscar
      */
     public Buscar(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        llenarTabla();
+    }
+    
+    public int getID(){
+        return this.ID;
+    }
+    
+    private void llenarTabla(){
+        DAO alumnoBD = new DAOAlumno();
+        
+        //Model
+        DefaultTableModel modelo = (DefaultTableModel) tblAlumno.getModel();
+        //Del modelo eliminar todas las filas
+        modelo.setRowCount(0);
+        
+        List<Object> alumnos = alumnoBD.buscar();
+        for(Object alumno: alumnos){
+            Alumno a = (Alumno) alumno;
+                               //ID //Nombre //Email //Semestre //Carrera
+            modelo.addRow(new Object[]{
+                        a.getId(),
+                        a.getNombre(),
+                        a.getEmail(),
+                        a.getSemestre(),
+                        a.getCarrera()
+            });
+        }
+        //Asignamos el modelo con los datos a la tabla.
+        tblAlumno.setModel(modelo);
     }
 
     /**
@@ -54,12 +90,22 @@ public class Buscar extends javax.swing.JDialog {
                 return canEdit [columnIndex];
             }
         });
-        tblAlumno.setColumnSelectionAllowed(true);
+        tblAlumno.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         tblAlumno.getTableHeader().setReorderingAllowed(false);
+        tblAlumno.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblAlumnoMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblAlumno);
         tblAlumno.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
         btnSeleccionar.setText("Seleccionar");
+        btnSeleccionar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSeleccionarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -95,6 +141,26 @@ public class Buscar extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnSeleccionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeleccionarActionPerformed
+        if(this.ID > -1){
+            this.dispose();
+        }else{
+            JOptionPane.showMessageDialog(this, "NO ha seleccionado ningun alumno.",
+                    "Precaucion", JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_btnSeleccionarActionPerformed
+
+    private void tblAlumnoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblAlumnoMouseClicked
+        
+        int row = tblAlumno.getSelectedRow();
+        if(row > -1){
+            //Obtener el id desde la tabla
+            this.ID = Integer.parseInt( tblAlumno.getModel().getValueAt(row, 0).toString());
+        }
+        
+        
+    }//GEN-LAST:event_tblAlumnoMouseClicked
 
     /**
      * @param args the command line arguments

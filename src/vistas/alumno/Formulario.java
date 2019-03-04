@@ -11,6 +11,7 @@ package vistas.alumno;
  */
 public class Formulario extends javax.swing.JInternalFrame {
     private boolean agregar = true;
+    private int ID = -1;
     /**
      * Creates new form Formulario
      */
@@ -129,8 +130,11 @@ public class Formulario extends javax.swing.JInternalFrame {
     private void lblIDMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblIDMouseClicked
         
         if(!agregar){
-            Buscar buscar = new Buscar(null, false);
+            Buscar buscar = new Buscar(null, true);
             buscar.setVisible(true);
+            this.ID = buscar.getID();
+                          // 000001
+            lblID.setText(String.format("%06d", this.ID));
         }
     }//GEN-LAST:event_lblIDMouseClicked
 
