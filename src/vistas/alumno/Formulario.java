@@ -5,6 +5,11 @@
  */
 package vistas.alumno;
 
+import datos.DAO;
+import datos.mysql.DAOAlumno;
+import entidades.Alumno;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Ulymay
@@ -12,12 +17,14 @@ package vistas.alumno;
 public class Formulario extends javax.swing.JInternalFrame {
     private boolean agregar = true;
     private int ID = -1;
+    private DAO alumnoDB = new DAOAlumno();
     /**
      * Creates new form Formulario
      */
     public Formulario(boolean agregar) {
         this.agregar = agregar;
         initComponents();
+        
     }
 
     /**
@@ -63,6 +70,11 @@ public class Formulario extends javax.swing.JInternalFrame {
         jLabel5.setText("Carrera:");
 
         btnGuardar.setText("Guardar");
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -135,9 +147,51 @@ public class Formulario extends javax.swing.JInternalFrame {
             this.ID = buscar.getID();
                           // 000001
             lblID.setText(String.format("%06d", this.ID));
+            
+            if(this.ID > -1){
+                Alumno alumno = (Alumno) alumnoDB.buscarId(this.ID);
+                
+                txtNombre.setText(alumno.getNombre());
+                txtEmail.setText(alumno.getEmail());
+                txtCarrera.setText(alumno.getCarrera());
+                txtSemestre.setText(""+alumno.getSemestre());
+            }
         }
     }//GEN-LAST:event_lblIDMouseClicked
 
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        Alumno alumno = new Alumno();
+        alumno.setId(this.ID);
+        alumno.setNombre(txtNombre.getText());
+        alumno.setEmail(txtEmail.getText());
+        alumno.setCarrera(txtCarrera.getText());
+        alumno.setSemestre(Integer.parseInt(txtSemestre.getText()));
+        
+        
+        Boolean resultado = false;
+        if(this.ID > -1){ //Editar
+            resultado = alumnoDB.editar(alumno);
+        }else{ //Guardar
+            resultado = alumnoDB.agregar(alumno);
+        }
+        
+        if(resultado){
+        limpiar();
+            JOptionPane.showMessageDialog(null, "Se ha guardado correctamente!","Success", JOptionPane.INFORMATION_MESSAGE);
+        }else{
+            JOptionPane.showMessageDialog(null, "Surgio un problema y no se pudo guardar!", "Failed", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void limpiar(){
+        this.ID = -1;
+        lblID.setText("<ID>");
+        txtNombre.setText("");
+        txtEmail.setText("");
+        txtCarrera.setText("");
+        txtSemestre.setText("");
+                
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnGuardar;
