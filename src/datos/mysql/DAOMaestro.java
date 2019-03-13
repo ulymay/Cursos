@@ -19,8 +19,8 @@ public class DAOMaestro implements DAO {
             bd.abrirConexion();
             String consulta = "INSERT INTO maestro (noControl,nombre,titulo) "
                     + "VALUES ("
-                    + maestro.getNoControl() + ","
-                    + "'" + maestro.getNombre() + "'"
+                    + maestro.getNoControl() + ", "
+                    + "'" + maestro.getNombre() + "', "
                     + "'" + maestro.getTitulo() + "'"
                     + ")";
 
@@ -40,7 +40,7 @@ public class DAOMaestro implements DAO {
         try {
             Maestro maestro = (Maestro) o;
             bd.abrirConexion();
-            String consulta = "UPDATE mestro SET"
+            String consulta = "UPDATE mestro SET "
                     +"noControl = "+ maestro.getNoControl() + ","
                     + "nombre = '" + maestro.getNombre() + "'"
                     + "titulo = '" + maestro.getTitulo() + "'"

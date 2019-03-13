@@ -5,17 +5,49 @@
  */
 package vistas.maestro;
 
+import datos.DAO;
+import datos.mysql.DAOMaestro;
+import entidades.Maestro;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Ulymay
  */
 public class MaestroView extends javax.swing.JInternalFrame {
-
+    private DAO maestroBD = new DAOMaestro();
+    private int id = -1;
     /**
      * Creates new form MaestroView
      */
     public MaestroView() {
         initComponents();
+        llenarTabla();
+        limpiarCampos();
+    }
+    
+    private void llenarTabla(){
+        DefaultTableModel model = (DefaultTableModel) tblMaestro.getModel();
+        
+        model.setRowCount(0);
+        for(Object maestro: maestroBD.buscar()){
+            Maestro m = (Maestro) maestro;
+            
+            model.addRow(new Object[]{ m.getId(),
+                                        m.getNoControl(),
+                                        m.getNombre(),
+                                        m.getTitulo()} );
+        }
+        tblMaestro.setModel(model);
+    }
+    
+    private void limpiarCampos(){
+        id = -1;
+        lblId.setText("<ID>");
+        txtNoControl.setText("");
+        txtNombre.setText("");
+        txtTitulo.setText("");
     }
 
     /**
@@ -30,7 +62,7 @@ public class MaestroView extends javax.swing.JInternalFrame {
         jLabel1 = new javax.swing.JLabel();
         txtBuscar = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tlbMaestro = new javax.swing.JTable();
+        tblMaestro = new javax.swing.JTable();
         btnGuardar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
@@ -41,6 +73,11 @@ public class MaestroView extends javax.swing.JInternalFrame {
         txtTitulo = new javax.swing.JTextField();
         lblId = new javax.swing.JLabel();
 
+        setClosable(true);
+        setIconifiable(true);
+        setMaximizable(true);
+        setResizable(true);
+
         jLabel1.setText("Buscar:");
 
         txtBuscar.addActionListener(new java.awt.event.ActionListener() {
@@ -49,7 +86,7 @@ public class MaestroView extends javax.swing.JInternalFrame {
             }
         });
 
-        tlbMaestro.setModel(new javax.swing.table.DefaultTableModel(
+        tblMaestro.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -65,12 +102,27 @@ public class MaestroView extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
-        tlbMaestro.getTableHeader().setReorderingAllowed(false);
-        jScrollPane1.setViewportView(tlbMaestro);
+        tblMaestro.getTableHeader().setReorderingAllowed(false);
+        tblMaestro.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblMaestroMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tblMaestro);
 
         btnGuardar.setText("Guardar");
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
 
         btnEliminar.setText("Eliminar");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
 
         jLabel2.setText("No. Control:");
 
@@ -148,6 +200,46 @@ public class MaestroView extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtBuscarActionPerformed
 
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        if(!txtNombre.getText().equals("") && !txtNoControl.getText().equals("") && !txtTitulo.getText().equals("")){
+            Maestro maestro = new Maestro();
+            maestro.setId(id);
+            maestro.setNoControl(Integer.parseInt(txtNoControl.getText()));
+            maestro.setNombre(txtNombre.getText());
+            maestro.setTitulo(txtTitulo.getText());
+            
+            if(id>-1){//Editar
+                maestroBD.editar(maestro);
+            }else{//Agregar
+                maestroBD.agregar(maestro);
+            }            
+            limpiarCampos();
+            llenarTabla();
+            
+        }
+    }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        if(id>-1){
+            if(JOptionPane.showConfirmDialog(null, "¿Desea eliminar el registro?") == 0){
+                maestroBD.eliminar(id);
+                limpiarCampos();
+                llenarTabla();
+            }
+        }
+    }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private void tblMaestroMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblMaestroMouseClicked
+        int row = tblMaestro.getSelectedRow();
+        if(row > -1){
+            id = Integer.parseInt(tblMaestro.getModel().getValueAt(row, 0).toString());
+            lblId.setText(id+"");
+            txtNoControl.setText(tblMaestro.getModel().getValueAt(row, 1).toString());
+            txtNombre.setText(tblMaestro.getModel().getValueAt(row, 2).toString());
+            txtTitulo.setText(tblMaestro.getModel().getValueAt(row, 3).toString());
+        }
+    }//GEN-LAST:event_tblMaestroMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEliminar;
@@ -158,7 +250,7 @@ public class MaestroView extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblId;
-    private javax.swing.JTable tlbMaestro;
+    private javax.swing.JTable tblMaestro;
     private javax.swing.JTextField txtBuscar;
     private javax.swing.JTextField txtNoControl;
     private javax.swing.JTextField txtNombre;
