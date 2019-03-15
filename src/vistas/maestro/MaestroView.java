@@ -31,6 +31,7 @@ public class MaestroView extends javax.swing.JInternalFrame {
         DefaultTableModel model = (DefaultTableModel) tblMaestro.getModel();
         
         model.setRowCount(0);
+        
         for(Object maestro: maestroBD.buscar()){
             Maestro m = (Maestro) maestro;
             

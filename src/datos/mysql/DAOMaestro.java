@@ -79,7 +79,7 @@ public class DAOMaestro implements DAO {
         try {
             bd.abrirConexion();
             
-            String consulta = "SELECT * FROM mestro";
+            String consulta = "SELECT * FROM maestro";
             
             ResultSet res = bd.consultarDatos(consulta);
             
@@ -94,6 +94,7 @@ public class DAOMaestro implements DAO {
             }
             
         } catch (Exception e) {
+            System.out.println(e.getMessage());
         }finally{
             bd.cerrarConexion();
         }
