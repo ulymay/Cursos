@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="4a526cad-d79f-43d8-ab40-a2581dbda317">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="id" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+	curso.id AS 'idCurso',
+	curso.nombre AS 'curso',
+	curso.fecha AS 'fechaCurso',
+	curso.hora AS 'horaCurso',
+    maestro.nombre AS 'maestro',
+    maestro.titulo AS 'titulo',
+    alumno.id AS 'idAlumno',
+    alumno.nombre AS 'alumno',
+    alumno.email AS 'email',
+    alumno.semestre AS 'semestre',
+    alumno.carrera AS 'carrera'
+FROM
+	curso
+    LEFT JOIN maestro ON curso.idMaestro = maestro.id
+    LEFT JOIN cursoAlumno ON curso.id = cursoAlumno.idCurso
+    LEFT JOIN alumno ON cursoAlumno.idAlumno = alumno.id
+WHERE curso.id=$P{id}]]>
+	</queryString>
+	<field name="idCurso" class="java.lang.Integer"/>
+	<field name="curso" class="java.lang.String"/>
+	<field name="fechaCurso" class="java.sql.Date"/>
+	<field name="horaCurso" class="java.sql.Time"/>
+	<field name="maestro" class="java.lang.String"/>
+	<field name="titulo" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="idAlumno" class="java.lang.Integer"/>
+	<field name="alumno" class="java.lang.String"/>
+	<field name="email" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="semestre" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="carrera" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="118" splitType="Stretch">
+			<image>
+				<reportElement x="338" y="0" width="241" height="118" uuid="6e4d25a8-96f7-4590-9310-dd84321830d3"/>
+				<imageExpression><![CDATA["C:\\Users\\Ulymay\\Desktop\\isw.png"]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="57" y="35" width="258" height="20" uuid="eacc8abb-e3db-4d25-8da5-3aa3d5f6bb4a"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{curso}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="57" y="73" width="100" height="20" uuid="cd840912-18d0-45e2-8ac3-548c97adce04"/>
+				<text><![CDATA[Maestro]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="157" y="73" width="100" height="20" uuid="62bb499d-7b11-4e0c-bad5-c43968928b53"/>
+				<textFieldExpression><![CDATA[$F{maestro}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="157" y="93" width="100" height="20" uuid="2a18241b-ff38-4858-88d2-3a0337f2e92a"/>
+				<textFieldExpression><![CDATA[$F{titulo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="95" y="55" width="100" height="20" uuid="a47796e1-decd-4717-b176-5c00f12a8e6a"/>
+				<textFieldExpression><![CDATA[$F{fechaCurso}]]></textFieldExpression>
+			</textField>
+			<textField pattern="h:mm a">
+				<reportElement x="195" y="55" width="100" height="20" uuid="2f2474c7-46ba-4f43-a9e8-d0e4813af1e6"/>
+				<textFieldExpression><![CDATA[$F{horaCurso}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="25" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="68" height="20" uuid="e2076fd6-2f4c-4153-944c-b5a3095720c4"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="68" y="0" width="204" height="20" uuid="b5368d78-4d88-4c7f-b4b5-6a8253fff6a3"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Alumno]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="272" y="0" width="100" height="20" uuid="9e5a7ab1-1eaf-4dd2-b6a4-1ef1fcc48c85"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[EMAIL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="372" y="0" width="100" height="20" uuid="8844f920-bf8e-4835-95e9-3bb34311e9d0"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CARRERA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="472" y="0" width="83" height="20" uuid="4f423b5b-d572-44bc-ac91-bde3a6a01c46"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SEMESTRE]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="125" splitType="Stretch">
+			<textField pattern="000000">
+				<reportElement x="0" y="0" width="68" height="20" uuid="7ca81172-bc7a-44c1-9544-128a47f8897d"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{idAlumno}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="68" y="0" width="204" height="20" uuid="c7d8e27a-dbe9-4c85-80c1-76ed25610126"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{alumno}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="272" y="0" width="100" height="20" uuid="9df39cc0-1db6-44dd-bfae-ba88bb0b4dd6"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{email}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="372" y="0" width="100" height="20" uuid="8822e429-6037-4196-a5ef-8aeb9d74ce62"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{carrera}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="472" y="0" width="83" height="20" uuid="f4bf7cbd-ecdc-48b4-a716-33093b7476da"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{semestre}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>
