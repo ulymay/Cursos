@@ -5,6 +5,14 @@
  */
 package vistas.curso;
 
+import datos.mysql.baseDatos;
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.view.JasperViewer;
+
 /**
  *
  * @author Ulymay
@@ -27,21 +35,61 @@ public class CursosView extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        btnMostrarLista = new javax.swing.JButton();
+
+        btnMostrarLista.setText("Mostrar Lista");
+        btnMostrarLista.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMostrarListaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 394, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(147, 147, 147)
+                .addComponent(btnMostrarLista)
+                .addContainerGap(152, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 274, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(58, 58, 58)
+                .addComponent(btnMostrarLista)
+                .addContainerGap(197, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnMostrarListaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMostrarListaActionPerformed
+        //Obtener Conexion a base de datos
+        baseDatos bd = new baseDatos();
+        try {
+            bd.abrirConexion();
+            //Cual es el reporte
+            File reporte = new File("src/reportes/lista.jasper");
+            
+            //Definir los parametros
+            Map parametros = new HashMap();
+            parametros.put("id", 1);
+            
+            //Jasper reports
+            JasperPrint print = JasperFillManager.fillReport(reporte.getPath(), parametros, bd.getConexion());
+            
+            JasperViewer viewer = new JasperViewer(print,false);
+            viewer.setVisible(true);
+            
+        } catch (Exception e) {
+        }finally{
+            bd.cerrarConexion();
+        }
+    }//GEN-LAST:event_btnMostrarListaActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnMostrarLista;
     // End of variables declaration//GEN-END:variables
 }

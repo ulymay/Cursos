@@ -6,6 +6,7 @@
 package vistas;
 
 import vistas.alumno.Formulario;
+import vistas.curso.CursosView;
 import vistas.maestro.MaestroView;
 
 /**
@@ -84,6 +85,11 @@ public class Principal extends javax.swing.JFrame {
         jMenuBar1.add(menuAlumno);
 
         jMenu2.setText("Cursos");
+        jMenu2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu2MouseClicked(evt);
+            }
+        });
         jMenuBar1.add(jMenu2);
 
         jMenu3.setText("Maestros");
@@ -127,6 +133,13 @@ public class Principal extends javax.swing.JFrame {
         fmaestro.setVisible(true);
         desktop.add(fmaestro);
     }//GEN-LAST:event_jMenu3MouseClicked
+
+    private void jMenu2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu2MouseClicked
+        CursosView fCurso = new CursosView();
+        fCurso.setVisible(true);
+        desktop.add(fCurso);
+                
+    }//GEN-LAST:event_jMenu2MouseClicked
 
     /**
      * @param args the command line arguments

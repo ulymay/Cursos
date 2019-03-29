@@ -2,8 +2,8 @@ package datos.mysql;
 
 public class configuracionBaseDatos {
     private String controlador = "com.mysql.jdbc.Driver"; 
-    private String baseDatos = "jdbc:mysql://localhost/cursos";
-    private String usuario = "root";
+    private String baseDatos = "jdbc:mysql://jorgenorza.ga/cursos";
+    private String usuario = "itson";
     private String contrasena = "";    
     public configuracionBaseDatos(){
         
